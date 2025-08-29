@@ -7,10 +7,21 @@ import { ROUTES } from '@/lib/constants/routes';
 import UserCircleIcon from '../ui/UserCircleIcon';
 import CogIcon from '../ui/CogIcon';
 import LogoutIcon from '../ui/LogoutIcon';
+import { API_URLS } from '@/lib/constants/apiUrls';
+import apiClient from '@/lib/api/apiClient';
 
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const logout = (): void => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -32,7 +43,7 @@ const ProfileDropdown = () => {
         className="flex items-center cursor-pointer"
         aria-haspopup="true"
         aria-expanded={isOpen}
-      
+
       >
         <Image
           src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
@@ -59,7 +70,10 @@ const ProfileDropdown = () => {
               </Link>
             </li>
             <li>
-              <a href="#" className="flex items-center px-4 py-2 text-sm text-text-primary hover:bg-base-200">
+              <a onClick={(e) => {
+                e.preventDefault();
+                logout();
+              }} className="flex items-center px-4 py-2 text-sm text-text-primary hover:bg-base-200">
                 <LogoutIcon className="w-5 h-5 mr-3" />
                 Logout
               </a>
