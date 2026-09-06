@@ -1,13 +1,16 @@
 // lib/api/apiHandlers.ts
-import apiClient from "./apiClient";
+import { userClient } from "./apiClient";
 import axios, { AxiosRequestConfig, Method } from "axios";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+const USER_API_BASE_URL =
+  process.env.NEXT_PUBLIC_USER_API_URL || "http://localhost:8083/api";
 
 // A separate, simple Axios instance for public endpoints
 const publicApiClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: { "Content-Type": "application/json" },
+  baseURL: USER_API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 interface ApiHandlerConfig {
@@ -27,7 +30,7 @@ export const apiHandler = async <T>(
   config: ApiHandlerConfig
 ): Promise<T> => {
   try {
-    const response = await apiClient<T>({
+    const response = await userClient<T>({
       url: config.url,
       method: config.method,
       data: config.data,
@@ -40,23 +43,18 @@ export const apiHandler = async <T>(
 };
 
 /**
- * Handles API requests that do NOT require authentication.
- * Ideal for login, register, or public data fetching.
- * @param config The request configuration.
- * @returns A promise that resolves to the response data.
+/**
+ * Handles public UserService requests such as login/register.
  */
 export const apiHandlerNoAuth = async <T>(
   config: ApiHandlerConfig
 ): Promise<T> => {
-  try {
-    const response = await publicApiClient<T>({
-      url: config.url,
-      method: config.method,
-      data: config.data,
-      ...config.config,
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await publicApiClient<T>({
+    url: config.url,
+    method: config.method,
+    data: config.data,
+    ...config.config,
+  });
+
+  return response.data;
 };

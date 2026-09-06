@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { apiClient } from '@/lib/api/apiClient';
+import { userClient } from '@/lib/api/apiClient';
 import type { User } from '@/lib/types/user';
 
 /**
@@ -10,9 +10,12 @@ import type { User } from '@/lib/types/user';
 export function useUsers() {
   return useQuery<User[], Error>({
     // queryKey is the unique key for this query. React Query uses it for caching.
-    queryKey: ['users'], 
-    
+    queryKey: ['users'],
+
     // queryFn is the function that fetches the data.
-    queryFn: () => apiClient<User[]>('users'),
+    queryFn: async () => {
+      const response = await userClient.get<User[]>('/users');
+      return response.data;
+    },
   });
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface HeaderProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Header: React.FC<HeaderProps> = ({ children }) => {

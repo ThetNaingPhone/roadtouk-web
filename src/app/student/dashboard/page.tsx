@@ -1,9 +1,10 @@
 import React from 'react';
+import UniversityList from '@/components/student/UniversityList';
 
 const StudentDashboardPage = () => {
   return (
     <div>
-      <h1>Student Dashboard</h1>
+      <UniversityList />
     </div>
   );
 };

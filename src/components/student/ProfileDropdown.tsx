@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { ROUTES } from '@/lib/constants/routes';
-import UserCircleIcon from '../ui/UserCircleIcon';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import CogIcon from '../ui/CogIcon';
 import LogoutIcon from '../ui/LogoutIcon';
-import { API_URLS } from '@/lib/constants/apiUrls';
-import apiClient from '@/lib/api/apiClient';
+import UserCircleIcon from '../ui/UserCircleIcon';
 
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
